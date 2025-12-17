@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Exponential Smoothing Forecast</title>
+    <style>
+        /* Styles omitted for brevity */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Enrollment Time Series Forecast (Simple Exponential Smoothing)</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> Simple Exponential Smoothing (SES) is a time series forecasting method best suited for data with no strong trend or seasonality. The forecast is a weighted average of past observations, where the weights decay exponentially as the observations get older, controlled by the smoothing parameter alpha. F_{t+1} = (alpha Y_t + (1-\alpha) F_t.
+    </p>
+
+    <label for="enrollment_history">1. Historical Enrollment (Comma-separated, e.g., 500,520,550,530,570):</label>
+    <input type="text" id="enrollment_history" value="500,520,550,530,570">
+    
+    <label for="alpha">2. Smoothing Factor (alpha, 0.0 - 1.0):</label>
+    <input type="number" id="alpha" value="0.3" min="0.0" max="1.0" step="0.1">
+
+    <button onclick="forecastSES()">Forecast Next Period Enrollment</button>
+
+    <div id="result_ses">
+        Enter historical enrollment data and the smoothing factor (alpha).
+    </div>
+</div>
+
+<script>
+// --- Simple Exponential Smoothing (SES) in JavaScript ---
+
+function forecastSES() {
+    // 1. Collect and Prepare Data
+    const historyStr = document.getElementById('enrollment_history').value;
+    const history = historyStr.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+    const alpha = parseFloat(document.getElementById('alpha').value);
+
+    if (history.length < 2 || alpha < 0 || alpha > 1) {
+        document.getElementById('result_ses').innerHTML = "Error: Need at least 2 historical points and alpha must be between 0.0 and 1.0.";
+        return;
+    }
+
+    // 2. SES Calculation
+    let forecast = history[0]; // Initialize F1 with Y1
+    let forecasts = [forecast];
+
+    for (let i = 0; i < history.length; i++) {
+        const actualValue = history[i];
+        
+        // SES Formula: F_t+1 = α * Y_t + (1 - α) * F_t
+        // F_t is the forecast *for* time t (which was calculated at time t-1).
+        // For the first iteration (t=0), F_t = history[0]
+        
+        if (i > 0) {
+            forecast = (alpha * history[i - 1]) + ((1 - alpha) * forecasts[i - 1]);
+            forecasts.push(forecast);
+        }
+    }
+    
+    // The final forecast is for the next period (t+1)
+    const nextForecast = (alpha * history[history.length - 1]) + ((1 - alpha) * forecasts[forecasts.length - 1]);
+    
+    // Calculate Mean Absolute Error (MAE) for model fit assessment
+    let MAE = 0;
+    for (let i = 1; i < history.length; i++) {
+        MAE += Math.abs(history[i] - forecasts[i]);
+    }
+    MAE = (MAE / (history.length - 1)).toFixed(2);
+
+    // 3. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_ses');
+
+    let message = `<h2>ENROLLMENT FORECAST REPORT</h2>`;
+    message += `<p><strong>Forecasted Enrollment for Next Period: ${Math.round(nextForecast)} students</strong></p>`;
+    message += `<p><strong>Model Fit (MAE): ${MAE}</strong> students</p>`;
+    
+    message += `<h3>STRATEGIC PLANNING CONCLUSION:</h3>`;
+    
+    if (nextForecast > history[history.length - 1] * 1.05) {
+        message += `<p><strong>STRONG GROWTH PREDICTED:</strong> The model predicts an acceleration in enrollment. **Action:** Immediately prepare for increased resource demand (staffing, classroom space, onboarding). Marketing targets should be maintained.</p>`;
+    } else if (nextForecast < history[history.length - 1] * 0.95) {
+        message += `<p><strong>POTENTIAL DECLINE PREDICTED:</strong> The model suggests a slowdown or slight drop. **Action:** Launch an immediate investigation into the causes of the recent downturn (Y_t=570 was lower than expected, or lower than the forecast for that time) and activate contingency marketing campaigns.</p>`;
+    } else {
+        message += `<p><strong>STABLE TREND PREDICTED:</strong> Enrollment is expected to remain consistent. **Action:** Focus efforts on cost optimization and quality improvement rather than aggressive expansion marketing.</p>`;
+    }
+    message += `<p><em>Note: A low MAE suggests the model fits the recent data well, increasing confidence in the forecast.</em></p>`;
+    
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>

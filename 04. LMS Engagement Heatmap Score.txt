@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LMS Engagement Heatmap Score</title>
+    <style>
+        /* Styles omitted for brevity, similar to previous examples */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>12. LMS Engagement Heatmap Score Simulation</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> This model simulates a real-time engagement score by applying decay (Recency) and weighting (Frequency/Depth) to student LMS interactions. A high score (closer to 100) indicates recent, frequent, and meaningful engagement, suggesting low risk. A score close to 0 suggests the student is "ghosting."
+    </p>
+
+    <label for="days_since_last_login">1. Days Since Last LMS Login (0-30):</label>
+    <input type="number" id="days_since_last_login" value="7" min="0" max="30">
+    
+    <label for="weekly_activity_count">2. Average Weekly LMS Activity Count (Clicks/Posts):</label>
+    <input type="number" id="weekly_activity_count" value="30" min="0" max="100">
+
+    <label for="quiz_submission_rate">3. Quiz/Assignment Submission Rate (0.0 - 1.0):</label>
+    <input type="number" id="quiz_submission_rate" value="0.9" min="0.0" max="1.0" step="0.1">
+
+    <label for="forum_contribution_score">4. Forum Contribution Score (1-10, 10=Active):</label>
+    <input type="number" id="forum_contribution_score" value="3" min="1" max="10">
+
+    <button onclick="calculateEngagementScore()">Calculate Engagement Score</button>
+
+    <div id="result_heatmap">
+        Enter LMS activity data and calculate the engagement score.
+    </div>
+</div>
+
+<script>
+// --- LMS Engagement Heatmap Scoring in JavaScript ---
+
+function calculateEngagementScore() {
+    // 1. Collect Data
+    const daysLag = parseInt(document.getElementById('days_since_last_login').value);
+    const activityCount = parseInt(document.getElementById('weekly_activity_count').value);
+    const submissionRate = parseFloat(document.getElementById('quiz_submission_rate').value);
+    const forumScore = parseInt(document.getElementById('forum_contribution_score').value);
+
+    // 2. Scoring Logic (Decay and Weighted Sum)
+    
+    // Recency Component (Decay function: closer to 0 days, higher score)
+    const recencyScore = 50 * Math.exp(-0.05 * daysLag); 
+    
+    // Frequency Component (Logarithmic scaling for diminishing returns)
+    const frequencyScore = 20 * Math.log10(activityCount + 1);
+    
+    // Depth Component (Weighted based on quality/effort)
+    const submissionScore = submissionRate * 15; // High weight for mandatory actions
+    const forumImpact = forumScore * 1.5;      // Lower weight for optional actions
+
+    // Total Score (Max theoretical score ~ 100)
+    const totalEngagementScore = (recencyScore + frequencyScore + submissionScore + forumImpact).toFixed(1);
+
+    // 3. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_heatmap');
+    
+    let message = `<h2>LMS ENGAGEMENT HEATMAP REPORT</h2>`;
+    message += `<p><strong>Dynamic Engagement Score: ${totalEngagementScore} / 100</strong></p>`;
+    message += `<ul>
+        <li>Recency Score (Decay): ${recencyScore.toFixed(1)}</li>
+        <li>Frequency Score (Log): ${frequencyScore.toFixed(1)}</li>
+        <li>Depth Score (Submission/Forum): ${(submissionScore + forumImpact).toFixed(1)}</li>
+    </ul>`;
+
+    if (totalEngagementScore >= 80) {
+        resultDiv.className = 'low-risk';
+        message += `<p><strong>HIGH ENGAGEMENT ZONE:</strong> The student is highly engaged, recent activity is strong, and depth of interaction is sufficient. **Action:** Focus on nurturing this high engagement via advanced course offerings or leadership opportunities.</p>`;
+    } else if (totalEngagementScore >= 50) {
+        resultDiv.className = 'medium-risk';
+        message += `<p><strong>CAUTION ZONE:</strong> Activity is present but either lacking in recency or depth (low submission/forum scores). **Action:** Automated trigger alert. Send a personalized nudge focusing on the weakest component (e.g., "Check out the latest forum discussion").</p>`;
+    } else {
+        resultDiv.className = 'high-risk';
+        message += `<p><strong>CRITICAL RISK ZONE:</strong> The score suggests near-total disengagement (ghosting). **Action:** Immediate, human intervention. The high decay factor indicates the student is slipping quickly. Check for technical access issues or personal barriers.</p>`;
+    }
+    
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>

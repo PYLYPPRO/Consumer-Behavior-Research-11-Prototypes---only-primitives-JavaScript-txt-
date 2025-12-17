@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Effort Score (CES) Simulation</title>
+    <style>
+        /* Styles omitted for brevity */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>16. Customer Effort Score (CES) Simulation</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> The Customer Effort Score (CES) asks customers to rate how easy it was to handle a specific interaction (e.g., "The university made it easy for me to register for classes," scale 1-7, 7 being "Strongly Agree"). Lower effort scores (higher agreement) correlate strongly with loyalty and retention.
+    </p>
+
+    <label for="registration_effort">1. Class Registration Process (1-7, 7=Very Easy):</label>
+    <input type="number" id="registration_effort" value="5" min="1" max="7" step="1">
+    
+    <label for="tech_support_effort">2. Technical Support Experience (1-7, 7=Very Easy):</label>
+    <input type="number" id="tech_support_effort" value="4" min="1" max="7" step="1">
+
+    <label for="financial_aid_effort">3. Financial Aid Application Process (1-7, 7=Very Easy):</label>
+    <input type="number" id="financial_aid_effort" value="3" min="1" max="7" step="1">
+
+    <label for="advisor_meeting_effort">4. Scheduling Advisor Meeting (1-7, 7=Very Easy):</label>
+    <input type="number" id="advisor_meeting_effort" value="6" min="1" max="7" step="1">
+
+    <button onclick="calculateCES()">Calculate Combined CES</button>
+
+    <div id="result_ces">
+        Enter student ratings (1-7) for service interactions.
+    </div>
+</div>
+
+<script>
+// --- Customer Effort Score (CES) Calculation in JavaScript ---
+
+function calculateCES() {
+    // 1. Collect Data
+    const reg = parseInt(document.getElementById('registration_effort').value);
+    const tech = parseInt(document.getElementById('tech_support_effort').value);
+    const finance = parseInt(document.getElementById('financial_aid_effort').value);
+    const advisor = parseInt(document.getElementById('advisor_meeting_effort').value);
+
+    // 2. CES Calculation (Simple Average)
+    const totalScore = reg + tech + finance + advisor;
+    const combinedCES = (totalScore / 4).toFixed(2);
+    
+    // Low Effort (Good) is a score > 5.0
+    const effortVerdict = (combinedCES >= 6) ? "Very Low Effort (Excellent)" : 
+                          (combinedCES >= 4) ? "Medium Effort (Acceptable)" : 
+                          "High Effort (Critical)";
+
+    // Identify Pain Point
+    const scores = { 'Registration': reg, 'Tech Support': tech, 'Financial Aid': finance, 'Advisor Meeting': advisor };
+    let minScore = 7;
+    let painPoint = "None identified";
+    for (const key in scores) {
+        if (scores[key] < minScore) {
+            minScore = scores[key];
+            painPoint = key;
+        }
+    }
+
+    // 3. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_ces');
+
+    let message = `<h2>CUSTOMER EFFORT SCORE (CES) REPORT</h2>`;
+    message += `<p><strong>Combined CES (1-7 Scale): ${combinedCES}</strong></p>`;
+    message += `<p><strong>Effort Verdict:</strong> ${effortVerdict}</p>`;
+    
+    message += `<h3>SERVICE OPTIMIZATION INSIGHT:</h3>`;
+    message += `<p><strong>Lowest Rated Interaction (Pain Point):</strong> ${painPoint} (Score: ${minScore})</p>`;
+
+    if (combinedCES < 4) {
+        message += `<p><strong>CRITICAL FAILURE:</strong> The overall process is causing significant friction. **Action:** Launch a "Zero Effort" project focused on the ${painPoint} process to remove steps, streamline forms, or improve self-service options.</p>`;
+    } else if (minScore < 4) {
+        message += `<p><strong>TARGETED IMPROVEMENT:</strong> While overall effort is acceptable, the ${painPoint} process is a weak link. **Action:** Isolate the ${painPoint} department and conduct a deep dive (process mapping) to fix the bottleneck causing the high effort score.</p>`;
+    } else {
+        message += `<p><strong>MAINTAIN AND MONITOR:</strong> All scores are acceptable. **Action:** Continue monitoring, focusing the next survey wave on a different set of service interactions (e.g., library, dining, career placement).</p>`;
+    }
+    
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>

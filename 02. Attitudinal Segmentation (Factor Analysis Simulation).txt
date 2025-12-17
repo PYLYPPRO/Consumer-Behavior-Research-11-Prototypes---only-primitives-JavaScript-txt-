@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attitudinal Segmentation Simulation</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 40px; background-color: #f0fff0; }
+        .container { max-width: 700px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        h1 { color: #008000; text-align: center; border-bottom: 3px solid #008000; padding-bottom: 10px; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #333; }
+        input[type="number"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button { background-color: #008000; color: white; padding: 15px 20px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 30px; font-size: 18px; font-weight: bold; }
+        button:hover { background-color: #006400; }
+        #result_attitude { margin-top: 30px; padding: 25px; border-radius: 8px; font-size: 1.1em; text-align: left; line-height: 1.6; border: 1px dashed #008000; }
+        .segment-info { background-color: #f0fff0; padding: 15px; border-left: 5px solid #008000; margin-top: 10px; }
+        .explanation { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; font-size: 0.9em; color: #777; text-align: justify; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>10. Attitudinal Segmentation Simulation (Factor Analysis)</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> Attitudinal Segmentation groups students based on their beliefs, values, and psychological needs, often derived using Factor Analysis or Cluster Analysis on survey data. This simulation assigns a student to one of three cohorts ("Careerists," "Explorers," or "Cost-Sensitive") based on five normalized attitudinal scores (1-10, 10=Strongest belief). This is essential for tailored content marketing.
+    </p>
+
+    <label for="career_focus">1. Career Focus Score (Drive for immediate job placement):</label>
+    <input type="number" id="career_focus" value="8" min="1" max="10" step="1">
+    
+    <label for="cost_sensitivity">2. Cost Sensitivity Score (Willingness to pay for quality):</label>
+    <input type="number" id="cost_sensitivity" value="3" min="1" max="10" step="1">
+
+    <label for="academic_curiosity">3. Academic Curiosity Score (Interest in learning vs. grades):</label>
+    <input type="number" id="academic_curiosity" value="7" min="1" max="10" step="1">
+
+    <label for="online_preference">4. Online Preference Score (Desire for flexibility/digital delivery):</label>
+    <input type="number" id="online_preference" value="6" min="1" max="10" step="1">
+
+    <label for="social_learning">5. Social Learning Score (Need for group work/community):</label>
+    <input type="number" id="social_learning" value="4" min="1" max="10" step="1">
+
+    <button onclick="segmentAttitude()">Segment Student by Attitude</button>
+
+    <div id="result_attitude">
+        Enter the student's attitudinal scores to identify their psychological segment.
+    </div>
+</div>
+
+<script>
+// --- Attitudinal Segmentation Simulation in JavaScript ---
+
+function segmentAttitude() {
+    // 1. Collect Data
+    const careerFocus = parseInt(document.getElementById('career_focus').value);
+    const costSensitivity = parseInt(document.getElementById('cost_sensitivity').value);
+    const academicCuriosity = parseInt(document.getElementById('academic_curiosity').value);
+    const onlinePreference = parseInt(document.getElementById('online_preference').value);
+    const socialLearning = parseInt(document.getElementById('social_learning').value);
+
+    // 2. Segmentation Logic (Simulating Cluster Centers from Factor Analysis)
+    let segment = { name: "Mid-Range / Undefined", description: "Default segment. Needs further behavioral data.", focus: "General institutional messaging." };
+
+    if (careerFocus >= 8 && costSensitivity <= 4) {
+        segment = {
+            name: "Careerist/Pragmatist",
+            description: "Driven by ROI and career outcomes. Less concerned with cost if value is proven.",
+            focus: "Highlighting graduate employment rates, alumni salaries, and certification/licensure success stories."
+        };
+    } else if (academicCuriosity >= 7 && socialLearning >= 7 && careerFocus <= 5) {
+        segment = {
+            name: "Explorer/Community Builder",
+            description: "Motivated by deep learning, intellectual challenge, and community interaction. Cost is secondary to experience.",
+            focus: "Promoting research opportunities, faculty profiles, study abroad programs, and on-campus events."
+        };
+    } else if (costSensitivity >= 7 && onlinePreference >= 6) {
+        segment = {
+            name: "Cost-Sensitive/Flexibility Seeker",
+            description: "Primary drivers are low cost, financial aid, and schedule flexibility. Often part-time or non-traditional students.",
+            focus: "Information about scholarships, cost comparison with competitors, and promoting flexible/online course availability."
+        };
+    }
+
+    // 3. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_attitude');
+
+    let message = `<h2>ATTITUDINAL SEGMENTATION REPORT</h2>`;
+    message += `<p><strong>Student's Scores:</strong> Career: ${careerFocus}, Cost Sensitivity: ${costSensitivity}, Curiosity: ${academicCuriosity}, Online: ${onlinePreference}, Social: ${socialLearning}</p>`;
+    message += `<div class="segment-info">`;
+    message += `<strong>ASSIGNED SEGMENT:</strong> ${segment.name}<br>`;
+    message += `<strong>Description:</strong> ${segment.description}`;
+    message += `</div>`;
+    
+    message += `<h3>STRATEGIC MARKETING CONCLUSION:</h3>`;
+    message += `<p>To effectively acquire and retain this student, the marketing and advising communication must be tailored to their core psychological driver.</p>`;
+    message += `<p><strong>Recommended Content Focus:</strong> ${segment.focus}</p>`;
+
+    if (segment.name === "Careerist/Pragmatist") {
+        message += `<p><strong>Retention Action:</strong> Link academic performance to career milestones. Ensure they meet with the Career Services team early in their program.</p>`;
+    } else if (segment.name === "Explorer/Community Builder") {
+        message += `<p><strong>Retention Action:</strong> Encourage enrollment in honors programs or interdisciplinary research clusters. Failure to provide intellectual challenge is a high churn risk.</p>`;
+    } else if (segment.name === "Cost-Sensitive/Flexibility Seeker") {
+        message += `<p><strong>Retention Action:</strong> Financial stability is key. Automate financial check-ins and highlight the value of their online degree compared to traditional formats.</p>`;
+    }
+
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>

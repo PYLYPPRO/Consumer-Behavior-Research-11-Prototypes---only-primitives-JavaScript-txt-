@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marketing Attribution Simulation</title>
+    <style>
+        /* Styles omitted for brevity */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>18. Marketing Attribution Simulation (U-Shaped Model)</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> Attribution models assign value to marketing touchpoints leading to a conversion (enrollment). The U-Shaped (Position-Based) model gives 40% credit to the **First Touch** (discovery), 40% to the **Last Touch** (final decision), and distributes the remaining 20% to **Mid-Path** interactions. This balances discovery and conversion efforts.
+    </p>
+
+    <label for="first_touch">1. First Touch (Discovery) Channel ($ Value):</label>
+    <select id="first_touch">
+        <option value="1000">Social Media Ad</option>
+        <option value="500">SEO Blog Post</option>
+        <option value="2000">Recruitment Fair</option>
+    </select>
+    
+    <label for="mid_touch">2. Mid-Path Touchpoint (Nurture) Channel ($ Value):</label>
+    <select id="mid_touch">
+        <option value="1000">Email Campaign</option>
+        <option value="500">Webinar Registration</option>
+    </select>
+
+    <label for="last_touch">3. Last Touch (Conversion) Channel ($ Value):</label>
+    <select id="last_touch">
+        <option value="1000">Admissions Call</option>
+        <option value="500">Landing Page Visit</option>
+    </select>
+
+    <label for="student_clv">4. Student's Customer Lifetime Value (CLV, $):</label>
+    <input type="number" id="student_clv" value="25000" min="5000" step="1000">
+
+    <button onclick="calculateAttribution()">Calculate Attribution Value</button>
+
+    <div id="result_attr">
+        Select the touchpoints and CLV to allocate the revenue.
+    </div>
+</div>
+
+<script>
+// --- Marketing Attribution (U-Shaped) in JavaScript ---
+
+function calculateAttribution() {
+    // 1. Collect Data
+    const clv = parseFloat(document.getElementById('student_clv').value);
+    const firstTouchName = document.getElementById('first_touch').options[document.getElementById('first_touch').selectedIndex].text;
+    const midTouchName = document.getElementById('mid_touch').options[document.getElementById('mid_touch').selectedIndex].text;
+    const lastTouchName = document.getElementById('last_touch').options[document.getElementById('last_touch').selectedIndex].text;
+
+    // 2. Attribution Weights (U-Shaped Model)
+    const firstWeight = 0.40;
+    const lastWeight = 0.40;
+    const midWeight = 0.20;
+
+    // 3. Revenue Allocation
+    const firstValue = clv * firstWeight;
+    const midValue = clv * midWeight;
+    const lastValue = clv * lastWeight;
+
+    // 4. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_attr');
+
+    let message = `<h2>MARKETING ATTRIBUTION REPORT (U-SHAPED)</h2>`;
+    message += `<p><strong>Total Value to Attribute:</strong> $${clv.toLocaleString()} (CLV)</p>`;
+    
+    message += `<h3>REVENUE ALLOCATION:</h3>`;
+    message += `<ul>
+        <li><strong>First Touch (${firstTouchName}, 40%):</strong> $${firstValue.toLocaleString()}</li>
+        <li><strong>Last Touch (${lastTouchName}, 40%):</strong> $${lastValue.toLocaleString()}</li>
+        <li><strong>Mid-Path (${midTouchName}, 20%):</strong> $${midValue.toLocaleString()}</li>
+    </ul>`;
+
+    message += `<h3>STRATEGIC MARKETING CONCLUSION:</h3>`;
+    
+    if (firstValue > lastValue) {
+        message += `<p><strong>STRATEGY FOCUS:</strong> The model shows the First Touch channel (${firstTouchName}) is critical for student awareness. **Action:** Increase budget for discovery channels. The student journey is highly reliant on initial exposure.</p>`;
+    } else if (lastValue > firstValue) {
+        message += `<p><strong>STRATEGY FOCUS:</strong> The model emphasizes the Last Touch channel (${lastTouchName}) for conversion. **Action:** Invest heavily in high-conversion touchpoints (e.g., Admissions staff training, personalized final call-to-actions) to secure the enrollment.</p>`;
+    } else {
+        message += `<p><strong>BALANCED STRATEGY:</strong> Value is evenly split. **Action:** Maintain balanced spending across all stages of the funnel. Ensure smooth handover between the discovery and conversion teams.</p>`;
+    }
+    
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>

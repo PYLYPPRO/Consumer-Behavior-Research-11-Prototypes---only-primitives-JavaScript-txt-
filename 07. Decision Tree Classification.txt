@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Decision Tree Classification</title>
+    <style>
+        /* Styles omitted for brevity */
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>15. Decision Tree Classification Simulation (Intervention Triage)</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> A Decision Tree classifies an input by following a set of IF-THEN-ELSE rules down to a final "leaf" node. This simulation quickly triages a student into one of four distinct intervention categories (A, B, C, D) based on the severity of their academic and financial flags. 
+    </p>
+
+    <label for="has_academic_alert">1. Academic Alert Flag (GPA < 2.0 or Failing Course) (1-Yes, 0-No):</label>
+    <input type="number" id="has_academic_alert" value="1" min="0" max="1" step="1">
+    
+    <label for="has_financial_hold">2. Financial Hold Flag (Payment Delay > 30 Days) (1-Yes, 0-No):</label>
+    <input type="number" id="has_financial_hold" value="0" min="0" max="1" step="1">
+
+    <label for="lms_inactivity">3. LMS Inactivity (Days Since Login > 7) (1-Yes, 0-No):</label>
+    <input type="number" id="lms_inactivity" value="1" min="0" max="1" step="1">
+
+    <button onclick="classifyDecisionTree()">Classify Student for Intervention</button>
+
+    <div id="result_dt">
+        Enter the status of the three risk flags to classify the student.
+    </div>
+</div>
+
+<script>
+// --- Decision Tree Classification in JavaScript ---
+
+function classifyDecisionTree() {
+    // 1. Collect Data
+    const academicAlert = parseInt(document.getElementById('has_academic_alert').value);
+    const financialHold = parseInt(document.getElementById('has_financial_hold').value);
+    const lmsInactivity = parseInt(document.getElementById('lms_inactivity').value);
+
+    // 2. Decision Tree Logic (Sequential Rules)
+    let interventionCategory = {};
+
+    // Root Node: Is there a Financial Hold? (Highest Impact)
+    if (financialHold === 1) {
+        // Branch 1: Financial Hold
+        if (academicAlert === 1) {
+            interventionCategory = { 
+                category: "A (CRITICAL MULTI-DOMAIN RISK)", 
+                description: "Student is blocked financially AND failing academically. Immediate retention specialist review is mandatory.", 
+                priority: "Highest"
+            };
+        } else {
+            interventionCategory = { 
+                category: "B (FINANCIAL BLOCK)", 
+                description: "Primary issue is financial. Requires Bursar's Office triage before any academic intervention.", 
+                priority: "High"
+            };
+        }
+    } else {
+        // Branch 2: No Financial Hold
+        if (academicAlert === 1) {
+            // Sub-Node: Academic Alert
+            if (lmsInactivity === 1) {
+                interventionCategory = { 
+                    category: "C (ACADEMIC CRISIS + DISENGAGEMENT)", 
+                    description: "Failing academically and not engaging with online resources. Needs academic advisor intervention AND technical/wellness check.", 
+                    priority: "Medium-High"
+                };
+            } else {
+                interventionCategory = { 
+                    category: "D (PURE ACADEMIC SUPPORT NEED)", 
+                    description: "Failing but still logging in. Needs targeted tutoring/mentoring, not crisis management.", 
+                    priority: "Medium"
+                };
+            }
+        } else {
+            // Leaf: No Major Alerts
+            interventionCategory = { 
+                category: "E (LOW RISK / GENERAL MONITORING)", 
+                description: "Student is currently stable. Continue automated monitoring.", 
+                priority: "Low"
+            };
+        }
+    }
+
+    // 3. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_dt');
+
+    let message = `<h2>DECISION TREE CLASSIFICATION REPORT</h2>`;
+    message += `<p><strong>Triage Category:</strong> <strong style="font-size: 1.2em; color: ${interventionCategory.priority === 'Highest' ? 'red' : interventionCategory.priority === 'High' ? 'orange' : 'green'};">${interventionCategory.category}</strong></p>`;
+    message += `<p><strong>Priority Level:</strong> ${interventionCategory.priority}</p>`;
+    
+    message += `<h3>OPERATIONAL RECOMMENDATION:</h3>`;
+    message += `<p><strong>Description:</strong> ${interventionCategory.description}</p>`;
+    
+    if (interventionCategory.priority === "Highest" || interventionCategory.priority === "High") {
+        message += `<p><strong>Next Step:</strong> Open a Level 1 Case Ticket. Ensure the appropriate office (Bursar/Academic Affairs) owns the resolution within 48 hours.</p>`;
+    } else {
+        message += `<p><strong>Next Step:</strong> Automatic email/in-LMS notification with links to relevant success resources. No manual follow-up required unless further flags are raised.</p>`;
+    }
+    
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>

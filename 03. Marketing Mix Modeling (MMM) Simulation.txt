@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marketing Mix Modeling (MMM) Simulation</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 40px; background-color: #f7f0ff; }
+        .container { max-width: 650px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        h1 { color: #6a0dad; text-align: center; border-bottom: 3px solid #6a0dad; padding-bottom: 10px; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #333; }
+        input[type="number"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button { background-color: #6a0dad; color: white; padding: 15px 20px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 30px; font-size: 18px; font-weight: bold; }
+        button:hover { background-color: #4b0a7d; }
+        #result_mmm { margin-top: 30px; padding: 25px; border-radius: 8px; font-size: 1.1em; text-align: left; line-height: 1.6; border: 1px dashed #6a0dad; }
+        .explanation { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; font-size: 0.9em; color: #777; text-align: justify; }
+        .metric-good { color: #008000; font-weight: bold; }
+        .metric-poor { color: #cc0000; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>11. Marketing Mix Modeling (MMM) Simulation</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> Marketing Mix Modeling uses statistical techniques (often Linear Regression with transformations) to quantify the impact of different marketing inputs (channels, spending, promotions) on a desired output (e.g., Enrollment). This simulation uses historical coefficients to predict the resulting enrollment volume and calculate the ROI for the chosen budget allocation.
+    </p>
+
+    <label for="base_enrollment">1. Baseline Enrollment (Without Marketing):</label>
+    <input type="number" id="base_enrollment" value="500" min="100" step="50">
+    
+    <label for="digital_budget">2. Paid Digital Budget ($000):</label>
+    <input type="number" id="digital_budget" value="100" min="10" step="10">
+
+    <label for="seo_budget">3. SEO & Content Budget ($000):</label>
+    <input type="number" id="seo_budget" value="50" min="10" step="10">
+
+    <label for="event_budget">4. Recruitment Event Budget ($000):</label>
+    <input type="number" id="event_budget" value="20" min="5" step="5">
+    
+    <label for="avg_clv_mmm">5. Average Customer Lifetime Value (CLV) ($):</label>
+    <input type="number" id="avg_clv_mmm" value="20000" min="1000" step="1000">
+
+    <button onclick="runMMM()">Predict Enrollment & ROI</button>
+
+    <div id="result_mmm">
+        Enter budget allocations and CLV to predict enrollment and ROI.
+    </div>
+</div>
+
+<script>
+// --- Marketing Mix Modeling (MMM) Simulation in JavaScript ---
+
+function runMMM() {
+    // 1. Collect Data (Budgets in $000)
+    const baseEnrollment = parseInt(document.getElementById('base_enrollment').value);
+    const digitalBudget = parseFloat(document.getElementById('digital_budget').value);
+    const seoBudget = parseFloat(document.getElementById('seo_budget').value);
+    const eventBudget = parseFloat(document.getElementById('event_budget').value);
+    const avgCLV = parseFloat(document.getElementById('avg_clv_mmm').value);
+
+    // 2. Simulated MMM Coefficients (Derived from historical regression)
+    // Coeff = Incremental Enrollment per $1,000 spent
+    const coefficients = {
+        intercept: baseEnrollment,
+        digital: 0.8, // Paid Digital provides a quick, moderate return
+        seo: 1.5,     // SEO/Content provides a slower, higher quality return (higher coefficient)
+        events: 0.5   // Events provide a low-volume, high-touch return (lower coefficient)
+    };
+
+    // 3. Predicted Enrollment Calculation (Linear Model Simulation)
+    const incrementalEnrollment = 
+        (coefficients.digital * digitalBudget) + 
+        (coefficients.seo * seoBudget) + 
+        (coefficients.events * eventBudget);
+        
+    const totalPredictedEnrollment = Math.round(coefficients.intercept + incrementalEnrollment);
+
+    // 4. ROI Calculation
+    const totalMarketingSpend = (digitalBudget + seoBudget + eventBudget) * 1000;
+    const totalRevenueGenerated = incrementalEnrollment * avgCLV; // Only count revenue from *incremental* students
+    
+    const roi = ((totalRevenueGenerated - totalMarketingSpend) / totalMarketingSpend) * 100;
+
+    // 5. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_mmm');
+
+    let message = `<h2>MARKETING MIX MODELING REPORT</h2>`;
+    message += `<p><strong>Total Predicted Enrollment:</strong> ${totalPredictedEnrollment} students</p>`;
+    message += `<p><strong>Total Marketing Spend:</strong> $${totalMarketingSpend.toLocaleString()}</p>`;
+    
+    // Channel Performance Breakdown
+    message += `<h3>CHANNEL PERFORMANCE BREAKDOWN:</h3>`;
+    message += `<ul>`;
+    message += `<li><strong>Paid Digital:</strong> ${Math.round(coefficients.digital * digitalBudget)} incremental students. ROI Per $1000: <span class="${coefficients.digital * avgCLV > 1000 ? 'metric-good' : 'metric-poor'}">$${(coefficients.digital * avgCLV).toFixed(0)}</span></li>`;
+    message += `<li><strong>SEO & Content:</strong> ${Math.round(coefficients.seo * seoBudget)} incremental students. ROI Per $1000: <span class="${coefficients.seo * avgCLV > 1000 ? 'metric-good' : 'metric-poor'}">$${(coefficients.seo * avgCLV).toFixed(0)}</span></li>`;
+    message += `<li><strong>Recruitment Events:</strong> ${Math.round(coefficients.events * eventBudget)} incremental students. ROI Per $1000: <span class="${coefficients.events * avgCLV > 1000 ? 'metric-good' : 'metric-poor'}">$${(coefficients.events * avgCLV).toFixed(0)}</span></li>`;
+    message += `</ul>`;
+
+    message += `<h3>OVERALL ROI CONCLUSION:</h3>`;
+    message += `<p><strong>Overall Marketing ROI:</strong> <span style="font-size: 1.5em; ${roi > 0 ? 'color: green;' : 'color: red;'}">${roi.toFixed(1)}%</span></p>`;
+
+    if (roi > 150) {
+        message += `<p><strong>OPTIMAL ALLOCATION:</strong> The current mix yields an excellent ROI. **Action:** Maintain this budget allocation, but consider slightly increasing the investment in the highest-performing channel (likely SEO, given the high coefficient) to exploit its efficiency fully.</p>`;
+    } else if (roi > 0) {
+        message += `<p><strong>VIABLE BUT NEEDS OPTIMIZATION:</strong> The mix is profitable, but the return is moderate. **Action:** Investigate the channels with the lowest ROI per $1000 (likely Recruitment Events). Reduce spending there and reallocate the budget to the channel with the highest ROI (e.g., SEO/Content) to maximize the overall return.</p>`;
+    } else {
+        message += `<p><strong>UNPROFITABLE:</strong> The current marketing spend is generating a net loss. **Action:** **Immediate Audit:** Stop spending on the channel with the lowest ROI and focus resources entirely on the baseline enrollment and word-of-mouth growth until a new, more efficient strategy is developed.</p>`;
+    }
+    
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>

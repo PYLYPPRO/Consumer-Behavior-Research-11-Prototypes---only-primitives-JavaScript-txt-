@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NPS & CSAT Score Calculation</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 40px; background-color: #fcf7e6; }
+        .container { max-width: 650px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        h1 { color: #806000; text-align: center; border-bottom: 3px solid #806000; padding-bottom: 10px; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #333; }
+        input[type="number"] { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        button { background-color: #806000; color: white; padding: 15px 20px; border: none; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 30px; font-size: 18px; font-weight: bold; }
+        button:hover { background-color: #594400; }
+        #result_nps { margin-top: 30px; padding: 25px; border-radius: 8px; font-size: 1.1em; text-align: left; line-height: 1.6; border: 1px dashed #806000; }
+        .explanation { margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; font-size: 0.9em; color: #777; text-align: justify; }
+        .score-box { padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 15px; }
+        .nps-positive { background-color: #e6ffe6; border: 2px solid #008000; }
+        .nps-critical { background-color: #ffe6e6; border: 2px solid #cc0000; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>9. NPS & CSAT Score Calculation Simulation</h1>
+    
+    <p class="explanation">
+        <strong>Method Explanation:</strong> **Net Promoter Score (NPS)** measures loyalty by classifying respondents into Promoters (9-10), Passives (7-8), and Detractors (0-6). NPS = (Promoters - Detractors). **Customer Satisfaction (CSAT)** measures short-term satisfaction via the simple average of scores. Both are crucial for assessing the quality and advocacy potential of educational services.
+    </p>
+
+    <label for="total_responses">1. Total Number of Survey Responses:</label>
+    <input type="number" id="total_responses" value="1000" min="10" step="100">
+    
+    <label for="promoters">2. Number of Promoters (NPS Score 9-10):</label>
+    <input type="number" id="promoters" value="450" min="0" step="10">
+
+    <label for="detractors">3. Number of Detractors (NPS Score 0-6):</label>
+    <input type="number" id="detractors" value="250" min="0" step="10">
+
+    <label for="avg_satisfaction">4. Average Score for CSAT Question (1-5 scale):</label>
+    <input type="number" id="avg_satisfaction" value="4.1" min="1.0" max="5.0" step="0.1">
+
+    <button onclick="calculateNPS()">Calculate Scores</button>
+
+    <div id="result_nps">
+        Enter survey data and click "Calculate Scores".
+    </div>
+</div>
+
+<script>
+// --- NPS & CSAT Calculation in JavaScript ---
+
+function calculateNPS() {
+    // 1. Collect Data
+    const totalResponses = parseInt(document.getElementById('total_responses').value);
+    const promoters = parseInt(document.getElementById('promoters').value);
+    const detractors = parseInt(document.getElementById('detractors').value);
+    const avgSatisfaction = parseFloat(document.getElementById('avg_satisfaction').value);
+
+    // Calculate Passives and Percentages
+    const passives = totalResponses - promoters - detractors;
+    const percentPromoters = (promoters / totalResponses) * 100;
+    const percentDetractors = (detractors / totalResponses) * 100;
+    const percentPassives = (passives / totalResponses) * 100;
+
+    // 2. Calculate NPS and CSAT
+    const npsScore = Math.round(percentPromoters - percentDetractors);
+    const csatScore = (avgSatisfaction * 20).toFixed(1); // Convert 1-5 scale to 0-100% equivalent
+
+    // 3. Determine NPS Benchmark and Action
+    let npsVerdict = "";
+    let npsClass = "";
+    if (npsScore >= 50) {
+        npsVerdict = "Excellent - World Class Performance. Leverage Promoters for testimonials.";
+        npsClass = "nps-positive";
+    } else if (npsScore >= 0) {
+        npsVerdict = "Good - Industry Standard. Focus on converting Passives to Promoters.";
+        npsClass = "";
+    } else {
+        npsVerdict = "Critical - High Risk of negative WOM. Must urgently address Detractor pain points.";
+        npsClass = "nps-critical";
+    }
+
+    // 4. Output and Detailed Interpretation
+    const resultDiv = document.getElementById('result_nps');
+
+    let message = `<h2>SERVICE QUALITY METRICS REPORT</h2>`;
+    message += `<div class="score-box ${npsClass}">`;
+    message += `<strong>NET PROMOTER SCORE (NPS): ${npsScore}</strong><br>`;
+    message += `Verdict: ${npsVerdict}`;
+    message += `</div>`;
+    
+    message += `<div class="score-box">`;
+    message += `<strong>CUSTOMER SATISFACTION (CSAT): ${csatScore}%</strong> (Based on 1-5 mean of ${avgSatisfaction.toFixed(2)})`;
+    message += `</div>`;
+    
+    message += `<h3>SEGMENT BREAKDOWN:</h3>`;
+    message += `<ul>
+        <li>Promoters (9-10): ${promoters} students (${percentPromoters.toFixed(1)}%)</li>
+        <li>Passives (7-8): ${passives} students (${percentPassives.toFixed(1)}%)</li>
+        <li>Detractors (0-6): ${detractors} students (${percentDetractors.toFixed(1)}%)</li>
+    </ul>`;
+
+    message += `<h3>STRATEGIC MARKETING CONCLUSION:</h3>`;
+    
+    if (npsScore < 0) {
+        message += `<p><strong>CRITICAL FAILURE:</strong> The high percentage of Detractors is unsustainable. **Action:** Launch a service recovery campaign focused solely on open-ended feedback from Detractors to identify systemic failures (e.g., poor advising, unhelpful tech support). Marketing spend must shift from acquisition to retention/reputation repair.</p>`;
+    } else if (npsScore >= 50) {
+        message += `<p><strong>OPTIMAL STRATEGY:</strong> High loyalty provides an excellent foundation. **Action:** Create a formal Student Advocacy Program to reward Promoters and actively request online reviews and referrals. Allocate a larger portion of the marketing budget to referral incentives.</p>`;
+    } else {
+        message += `<p><strong>IMPROVEMENT NEEDED:</strong> The large Passive segment (${percentPassives.toFixed(1)}%) represents the biggest opportunity. **Action:** Initiate micro-campaigns targeting Passives with specific, high-value improvements (e.g., announcing a new faculty member, new campus resource) to push them into the Promoter category.</p>`;
+    }
+    
+    resultDiv.innerHTML = message;
+}
+</script>
+
+</body>
+</html>
