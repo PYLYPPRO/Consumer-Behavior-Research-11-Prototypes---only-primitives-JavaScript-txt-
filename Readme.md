@@ -5,6 +5,9 @@ Method: Combined NPS and CSAT Score Calculation.
 Focus: Measuring student loyalty and satisfaction with the service/institution. 
 This is a crucial metric for marketing and service quality assessment. Factors: Two key survey questions (Likelihood to Recommend and Overall Satisfaction).
 
+<img width="569" height="587" alt="199999-091" src="https://github.com/user-attachments/assets/bde0f40a-bfea-46fd-ba4b-41814060a95c" />
+<img width="569" height="698" alt="199999-092" src="https://github.com/user-attachments/assets/53af7c56-df8c-4889-92f4-3e45b9b78a8a" />
+
 2. Attitudinal Segmentation (Factor Analysis Simulation)
 Method: Attitudinal Segmentation using Factor Analysis Simulation. 
 Focus: Grouping students based on their psychological attributes, beliefs, and motivations (e.g., attitude towards career, study methods, cost sensitivity). 
@@ -58,3 +61,4 @@ Method: Propensity Score Matching (PSM) Simulation.
 Focus: Simulating the calculation of a treatment effect (e.g., the impact of a specific retention intervention) by comparing similar treated and untreated groups. 
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
+
