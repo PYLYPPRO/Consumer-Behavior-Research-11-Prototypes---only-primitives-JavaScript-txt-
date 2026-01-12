@@ -57,23 +57,26 @@ Focus: Measuring how easy it is for students to interact with the institution's 
 High effort often leads to frustration and churn. 
 Factors: Student ratings on four interaction dimensions.
 
-14. Service Blueprinting Simulation
+<img width="758" height="474" alt="199999-0911" src="https://github.com/user-attachments/assets/137fc831-d7f6-4be8-b8ca-d79b3c268314" />
+
+15. Service Blueprinting Simulation
 Method: Service Blueprinting Simulation (Focusing on Touchpoints). 
 Focus: Analyzing the quality of key interaction touchpoints from the student's perspective. 
 Essential for service design and quality control. 
 Factors: Rating of various front-stage and backstage interactions.
 
-15. Marketing Attribution Simulation
+16. Marketing Attribution Simulation
 Method: Marketing Attribution Modeling (Simple U-Shaped). 
 Focus: Distributing credit for a student's enrollment across multiple marketing touchpoints. 
 Crucial for understanding channel true value and avoiding misallocation of budget. 
 Factors: 3 key touchpoints in the student journey.
 
-16. Propensity Score Matching Simulation
+17. Propensity Score Matching Simulation
 Method: Propensity Score Matching (PSM) Simulation. 
 Focus: Simulating the calculation of a treatment effect (e.g., the impact of a specific retention intervention) by comparing similar treated and untreated groups. 
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
+
 
 
 
