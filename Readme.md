@@ -81,6 +81,8 @@ Focus: Simulating the calculation of a treatment effect (e.g., the impact of a s
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
 
+<img width="861" height="447" alt="199999-0914" src="https://github.com/user-attachments/assets/9029a8f6-722b-482d-94f5-91edf59c8439" />
+
 
 
 
