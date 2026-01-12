@@ -42,34 +42,37 @@ Method: Simple Exponential Smoothing (Time Series Forecasting).
 Focus: Predicting future enrollment based on historical trends, giving more weight to recent data.
 Factors: Historical enrollment data and a smoothing factor (alpha).
 
-10. Decision Tree Classification
+<img width="708" height="547" alt="199999-099" src="https://github.com/user-attachments/assets/55155cfe-f51a-4df6-861f-638c0d3036bd" />
+
+11. Decision Tree Classification
 Method: Simplified Decision Tree (Rule-Based Classification). 
 Focus: Implementing a simple, highly interpretable decision pathway (tree) to classify students based on a few sequential rules. 
 Excellent for operationalizing decisions. Factors: 3 binary/categorical factors representing key thresholds.
 
-11. Customer Effort Score (CES) Simulation
+12. Customer Effort Score (CES) Simulation
 Method: Customer Effort Score (CES) Simulation. 
 Focus: Measuring how easy it is for students to interact with the institution's services (e.g., registration, technical support). 
 High effort often leads to frustration and churn. 
 Factors: Student ratings on four interaction dimensions.
 
-12. Service Blueprinting Simulation
+13. Service Blueprinting Simulation
 Method: Service Blueprinting Simulation (Focusing on Touchpoints). 
 Focus: Analyzing the quality of key interaction touchpoints from the student's perspective. 
 Essential for service design and quality control. 
 Factors: Rating of various front-stage and backstage interactions.
 
-13. Marketing Attribution Simulation
+14. Marketing Attribution Simulation
 Method: Marketing Attribution Modeling (Simple U-Shaped). 
 Focus: Distributing credit for a student's enrollment across multiple marketing touchpoints. 
 Crucial for understanding channel true value and avoiding misallocation of budget. 
 Factors: 3 key touchpoints in the student journey.
 
-14. Propensity Score Matching Simulation
+15. Propensity Score Matching Simulation
 Method: Propensity Score Matching (PSM) Simulation. 
 Focus: Simulating the calculation of a treatment effect (e.g., the impact of a specific retention intervention) by comparing similar treated and untreated groups. 
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
+
 
 
 
