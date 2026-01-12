@@ -35,39 +35,42 @@ Method: Price Elasticity of Demand Simulation.
 Focus: Determining how sensitive student enrollment volume is to changes in tuition price. Essential for tuition strategy and forecasting revenue. 
 Factors: Baseline price, new price, and corresponding enrollment figures.
 
-8. Time Series Forecast (Enrollment)
+<img width="973" height="525" alt="199999-098" src="https://github.com/user-attachments/assets/d54ff4ae-ee28-41fc-ac90-d165e5c14811" />
+
+9. Time Series Forecast (Enrollment)
 Method: Simple Exponential Smoothing (Time Series Forecasting).
 Focus: Predicting future enrollment based on historical trends, giving more weight to recent data.
 Factors: Historical enrollment data and a smoothing factor (alpha).
 
-9. Decision Tree Classification
+10. Decision Tree Classification
 Method: Simplified Decision Tree (Rule-Based Classification). 
 Focus: Implementing a simple, highly interpretable decision pathway (tree) to classify students based on a few sequential rules. 
 Excellent for operationalizing decisions. Factors: 3 binary/categorical factors representing key thresholds.
 
-10. Customer Effort Score (CES) Simulation
+11. Customer Effort Score (CES) Simulation
 Method: Customer Effort Score (CES) Simulation. 
 Focus: Measuring how easy it is for students to interact with the institution's services (e.g., registration, technical support). 
 High effort often leads to frustration and churn. 
 Factors: Student ratings on four interaction dimensions.
 
-11. Service Blueprinting Simulation
+12. Service Blueprinting Simulation
 Method: Service Blueprinting Simulation (Focusing on Touchpoints). 
 Focus: Analyzing the quality of key interaction touchpoints from the student's perspective. 
 Essential for service design and quality control. 
 Factors: Rating of various front-stage and backstage interactions.
 
-12. Marketing Attribution Simulation
+13. Marketing Attribution Simulation
 Method: Marketing Attribution Modeling (Simple U-Shaped). 
 Focus: Distributing credit for a student's enrollment across multiple marketing touchpoints. 
 Crucial for understanding channel true value and avoiding misallocation of budget. 
 Factors: 3 key touchpoints in the student journey.
 
-13. Propensity Score Matching Simulation
+14. Propensity Score Matching Simulation
 Method: Propensity Score Matching (PSM) Simulation. 
 Focus: Simulating the calculation of a treatment effect (e.g., the impact of a specific retention intervention) by comparing similar treated and untreated groups. 
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
+
 
 
 
