@@ -28,6 +28,7 @@ Factors: Budget allocated to 3 primary marketing channels.
 6. LMS Engagement Heatmap Score
 Method: Engagement Heatmap Scoring (Weighted Moving Average). Focus: Calculating a single, dynamic engagement score based on recent and frequent LMS activity. 
 Crucial for real-time risk assessment. Factors: Recency, Frequency, and Depth of LMS interaction.
+<img width="976" height="397" alt="199999-097" src="https://github.com/user-attachments/assets/9a7673c6-4ab3-4db5-8758-05f145612a12" />
 
 7. Price Elasticity of Demand Simulation
 Method: Price Elasticity of Demand Simulation. 
@@ -67,6 +68,7 @@ Method: Propensity Score Matching (PSM) Simulation.
 Focus: Simulating the calculation of a treatment effect (e.g., the impact of a specific retention intervention) by comparing similar treated and untreated groups. 
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
+
 
 
 
