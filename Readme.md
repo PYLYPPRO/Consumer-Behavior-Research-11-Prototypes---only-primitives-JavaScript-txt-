@@ -73,11 +73,14 @@ Focus: Distributing credit for a student's enrollment across multiple marketing 
 Crucial for understanding channel true value and avoiding misallocation of budget. 
 Factors: 3 key touchpoints in the student journey.
 
-18. Propensity Score Matching Simulation
+<img width="960" height="490" alt="199999-0913" src="https://github.com/user-attachments/assets/04aa1a57-9694-489e-b3ed-d1edff9fd9fe" />
+
+19. Propensity Score Matching Simulation
 Method: Propensity Score Matching (PSM) Simulation. 
 Focus: Simulating the calculation of a treatment effect (e.g., the impact of a specific retention intervention) by comparing similar treated and untreated groups. 
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
+
 
 
 
