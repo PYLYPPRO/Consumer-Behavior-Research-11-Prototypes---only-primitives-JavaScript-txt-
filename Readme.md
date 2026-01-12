@@ -65,17 +65,20 @@ Focus: Analyzing the quality of key interaction touchpoints from the student's p
 Essential for service design and quality control. 
 Factors: Rating of various front-stage and backstage interactions.
 
-16. Marketing Attribution Simulation
+<img width="869" height="622" alt="199999-0912" src="https://github.com/user-attachments/assets/723245e0-5f9c-4d1a-a773-d280517f8c43" />
+
+17. Marketing Attribution Simulation
 Method: Marketing Attribution Modeling (Simple U-Shaped). 
 Focus: Distributing credit for a student's enrollment across multiple marketing touchpoints. 
 Crucial for understanding channel true value and avoiding misallocation of budget. 
 Factors: 3 key touchpoints in the student journey.
 
-17. Propensity Score Matching Simulation
+18. Propensity Score Matching Simulation
 Method: Propensity Score Matching (PSM) Simulation. 
 Focus: Simulating the calculation of a treatment effect (e.g., the impact of a specific retention intervention) by comparing similar treated and untreated groups. 
 Crucial for validating retention strategies. 
 Factors: Binary outcome and two confounding variables.
+
 
 
 
